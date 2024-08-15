@@ -3,13 +3,15 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://raj:rpateriya111@cluster0.lre2joi.mongodb.net/code-journey-backend');
+mongoose.connect(process.env.DB);
 
 const userSchema = new mongoose.Schema({
   name: String,
