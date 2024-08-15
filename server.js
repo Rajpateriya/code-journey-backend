@@ -9,10 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/code-journey-backend', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect('mongodb://localhost:27017/code-journey-backend');
 
 const userSchema = new mongoose.Schema({
   name: String,
