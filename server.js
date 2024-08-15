@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/code-journey-backend');
+mongoose.connect('mongodb+srv://raj:rpateriya111@cluster0.lre2joi.mongodb.net/code-journey-backend');
 
 const userSchema = new mongoose.Schema({
   name: String,
@@ -29,7 +29,7 @@ app.post('/signup', async (req, res) => {
   const { name, username, email, hackerRank, leetCode, gfg, codeChef } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    
     const user = new User({
       name,
       username,
@@ -60,7 +60,7 @@ app.post('/login', async (req, res) => {
     // const token = jwt.sign({ userId: user._id }, 'secret_key', { expiresIn: '1h' });
     res.json({user})
     console.log(user)
-    res.json({ token });
+    
   } catch (error) {
     res.status(500).json({ error: 'Error logging in' });
   }
