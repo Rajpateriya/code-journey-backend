@@ -19,14 +19,14 @@ const userSchema = new mongoose.Schema({
   leetCode: String,
   gfg: String,
   codeChef: String,
-  password: String
+  
 });
 
 const User = mongoose.model('User', userSchema);
 
 // Sign Up route
 app.post('/signup', async (req, res) => {
-  const { name, username, email, hackerRank, leetCode, gfg, codeChef, password } = req.body;
+  const { name, username, email, hackerRank, leetCode, gfg, codeChef } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,8 +37,7 @@ app.post('/signup', async (req, res) => {
       hackerRank,
       leetCode,
       gfg,
-      codeChef,
-      password: hashedPassword
+      codeChef
     });
     await user.save();
     res.status(201).json({ message: 'User registered successfully' });
@@ -49,16 +48,18 @@ app.post('/signup', async (req, res) => {
 
 // Login route
 app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { username } = req.body;
 
   try {
     const user = await User.findOne({ username });
-    if (!user) return res.status(400).json({ error: 'User not found' });
+    // if (!user) return res.status(400).json({ error: 'User not found' });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
+    // const isMatch = await bcrypt.compare(password, user.password);
+    // if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
 
-    const token = jwt.sign({ userId: user._id }, 'secret_key', { expiresIn: '1h' });
+    // const token = jwt.sign({ userId: user._id }, 'secret_key', { expiresIn: '1h' });
+    res.json({user})
+    console.log(user)
     res.json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Error logging in' });
