@@ -65,7 +65,7 @@ app.post("/login", async (req, res) => {
 //user data
 app.get("/profile/:username", async (req, res) => {
   try {
-    const data = await User.findOne(req.params.username);
+    const data = await User.findOne({username : req.params.username});
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: "Error logging in" });
