@@ -13,17 +13,22 @@ app.use(cors());
 // MongoDB connection
 mongoose.connect(process.env.DB);
 
+const mongoose = require('mongoose');
+
 const userSchema = new mongoose.Schema({
-  name: String,
-  username: String,
-  email: String,
-  hackerRank: String,
-  leetCode: String,
-  gfg: String,
-  codeChef: String,
+  name: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  hackerRank: { type: String },
+  leetCode: { type: String },
+  gfg: { type: String },
+  codeChef: { type: String }
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
+
 
 // Sign Up route
 app.post("/signup", async (req, res) => {
@@ -56,7 +61,7 @@ app.post("/login", async (req, res) => {
     if (!user) return res.status(400).json({ error: "User not found" });
 
     res.json({ user });
-    console.log(user);
+   
   } catch (error) {
     res.status(500).json({ error: "Error logging in" });
   }
