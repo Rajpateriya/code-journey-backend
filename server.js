@@ -22,7 +22,8 @@ const userSchema = new mongoose.Schema({
   hackerRank: { type: String },
   leetCode: { type: String },
   gfg: { type: String },
-  codeChef: { type: String }
+  codeChef: { type: String },
+  github: { type: String }
 });
 
 const User = mongoose.model('User', userSchema);
