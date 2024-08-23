@@ -13,7 +13,7 @@ app.use(cors());
 // MongoDB connection
 mongoose.connect(process.env.DB);
 
-const mongoose = require('mongoose');
+
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -32,7 +32,7 @@ module.exports = User;
 
 // Sign Up route
 app.post("/signup", async (req, res) => {
-  const { name, username, email, hackerRank, leetCode, gfg, codeChef } =
+  const { name, username, email, hackerRank, leetCode, gfg, codeChef ,github} =
     req.body;
 
   try {
@@ -44,6 +44,7 @@ app.post("/signup", async (req, res) => {
       leetCode,
       gfg,
       codeChef,
+      github,
     });
     await user.save();
     res.status(201).json({ message: "User registered successfully" });
