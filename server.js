@@ -79,7 +79,7 @@ app.put("/profile/:username", async (req, res) => {
   try {
     const { username } = req.params;
     const updates = req.body;
-    const user = await user.findOneAndUpdate(
+    const user = await User.findOneAndUpdate(
       { username: username },
       { $set: updates },
       { new: true, runValidators: true }
