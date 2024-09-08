@@ -13,8 +13,6 @@ app.use(cors());
 // MongoDB connection
 mongoose.connect(process.env.DB);
 
-
-
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
@@ -23,17 +21,16 @@ const userSchema = new mongoose.Schema({
   leetCode: { type: String },
   gfg: { type: String },
   codeChef: { type: String },
-  github: { type: String }
+  github: { type: String },
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
 
-
 // Sign Up route
 app.post("/signup", async (req, res) => {
-  const { name, username, email, hackerRank, leetCode, gfg, codeChef ,github} =
+  const { name, username, email, hackerRank, leetCode, gfg, codeChef, github } =
     req.body;
 
   try {
@@ -63,7 +60,6 @@ app.post("/login", async (req, res) => {
     if (!user) return res.status(400).json({ error: "User not found" });
 
     res.json({ user });
-   
   } catch (error) {
     res.status(500).json({ error: "Error logging in" });
   }
@@ -72,10 +68,29 @@ app.post("/login", async (req, res) => {
 //user data
 app.get("/profile/:username", async (req, res) => {
   try {
-    const data = await User.findOne({username : req.params.username});
+    const data = await User.findOne({ username: req.params.username });
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: "Error logging in" });
+  }
+});
+
+app.put("/profile/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const updates = req.body;
+    const user = await user.findOneAndUpdate(
+      { username: username },
+      { $set: updates },
+      { new: true, runValidators: true }
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
